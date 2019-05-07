@@ -13,10 +13,11 @@ public class DeathCodeReader {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
+	ArrayList<DeathCode> deathCodes;
+	
+	public  DeathCodeReader(String filename) throws FileNotFoundException {
 
-	public ArrayList<DeathCode> readDeath(String filename) throws FileNotFoundException {
-
-		ArrayList<DeathCode> deathCodes = new ArrayList<>();
+		 deathCodes = new ArrayList<>();
 
 		File file = new File(filename);
 		// read 'NCHS' file
@@ -47,27 +48,27 @@ public class DeathCodeReader {
 				deathCodes.add(deathCode);
 			}catch(Exception e)
 			{
-//				System.out.println("Problematic line");
-//				System.out.println(deathRow);
+			
 			}
 		}
-//		System.out.println("size of deathCodes");
-//		System.out.println(deathCodes.size());
 
-		return deathCodes;
+		
 	}
 
 	/**
 	 * This method generate HashMap, key=stateCode, value=average of percentage of
 	 * excess death in category [ year, cause of death]
 	 * 
-	 * @param deathCodes
 	 * @param yr
 	 * @param cause_death
 	 * @return
 	 */
-	public HashMap<String, Double> computeAvgDeath(ArrayList<DeathCode> deathCodes, String yr, String cause_death) {
-
+	
+	public HashMap<String, Double> computeAvgDeath(String yr, String cause_death) {
+	
+		//	1. YEAR ; 2005- 2015
+		//	2. Cause of Death  ; Cancer, Stroke,Unintentional Injury,Chronic Lower Respiratory Disease,Heart Disease
+	
 		HashMap<String, Double> averageDeath = new HashMap<>();
 		String year = yr;
 		String causeOfDeath = cause_death;
@@ -105,22 +106,34 @@ public class DeathCodeReader {
 		return averageDeath;
 	}
 
-	/**
-	 * This method compute the difference of value between two HashMaps.
-	 * [year_recent] -[ year_old]
-	 * 
-	 * @param year_recent_death
-	 * @param year_old_death
-	 * @return
-	 */
-	public HashMap<String, Double> computeDifference(HashMap<String, Double> year_recent_death,
-			HashMap<String, Double> year_old_death) {
-		HashMap<String, Double> change_death = new HashMap<>();
-		for (String key : year_recent_death.keySet()) {
-			double change = year_recent_death.get(key) - year_old_death.get(key);
-			change_death.put(key, change);
+public ArrayList<String> commonTopRankedState_Death( String variable, String yr, String causeOfDeath) {
+		
+		Comparison ctr=new Comparison();
+		
+		HashMap<String, Double> one=ctr.topRankedState(ctr.getValuesForVariable(variable));
+		HashMap<String, Double> another=computeAvgDeath(yr, causeOfDeath);
+		ArrayList<String> commonState = new ArrayList<>();
+		for (String key : one.keySet()) {
+			if (another.keySet().contains(key)) {
+				commonState.add(key);
+			}
 		}
-		return change_death;
+		return commonState;
+	}
+	
+
+
+public double[] getValueArrayforVariable(HashMap<String, Double> inputMap) {
+
+	double[] values = new double[inputMap.keySet().size()];
+	int i = 0;
+	for (String key : inputMap.keySet()) {
+
+		values[i] = (double) (inputMap.get(key));
+		i++;
 	}
 
+	return values;
+}	
+	
 }

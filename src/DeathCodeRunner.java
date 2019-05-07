@@ -6,7 +6,7 @@ public class DeathCodeRunner {
 		
 	public static void main(String[] args)  {
 			DeathCodeReader dcr=new DeathCodeReader();
-			CompareTopRanked ctr= new CompareTopRanked();
+			Comparison ctr= new Comparison();
 		
 			ArrayList<DeathCode> result;
 			try {

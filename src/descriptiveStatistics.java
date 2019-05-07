@@ -1,4 +1,5 @@
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 public class descriptiveStatistics {
 	
 	public static void main(String[] args) throws EncryptedDocumentException, IOException {
-		CompareTopRanked ctr=new CompareTopRanked("DataDownload.xls");
+		
 		
 		WorkbookClass workbook = new WorkbookClass("DataDownload.xls");
 		ArrayList<Sheet> dataSheets = workbook.listDataSheets();

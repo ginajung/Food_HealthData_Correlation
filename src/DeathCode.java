@@ -3,8 +3,8 @@ public class DeathCode {
 		/*
 		 * column description
 		 
-		1. YEAR
-		2. Cause of Death
+		1. YEAR ; 2005- 2015
+		2. Cause of Death  ; Cancer, Stroke,Unintentional Injury,Chronic Lower Respiratory Disease,Heart Disease
 		3. State
 		4.StateCode
 		5. Region
