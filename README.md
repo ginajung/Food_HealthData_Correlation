@@ -1,3 +1,5 @@
+This application was developed by Gina Jung and Circe Mcdonald.
+
 # Foodies
 Foodies is a user-friendly interface allowing the user to explore health outcomes based on food environments and socio-economic factors collected by the FDA on a state level.  
 
