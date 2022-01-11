@@ -1,3 +1,5 @@
+// DESCRIPTION: County class to hold county specific information from the USDA workbook (rows).
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +15,6 @@ public class County {
 		this.State = State;
 		this.FIPS = FIPS; 
 		this.County = County;
-//Note that stats will need to be added in another function, likely under descriptive statistics. 
 		this.stats = new HashMap<>();
 	}
 }

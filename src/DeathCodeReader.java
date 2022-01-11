@@ -1,8 +1,12 @@
+// DESCRIPTION: Read in file to the DeathCode class. Compute average deaths by state.
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class DeathCodeReader {
 	/**
@@ -15,11 +19,36 @@ public class DeathCodeReader {
 	 */
 	ArrayList<DeathCode> deathCodes;
 	
-	public  DeathCodeReader(String filename) throws FileNotFoundException {
+    public ArrayList<String> listDeathYears(){
+    	ArrayList<String> deathyears = new ArrayList<String>();
+    	deathCodes.forEach(code -> {
+    		String tempYear = code.getYear();
+    		if (!deathyears.contains(tempYear)) {
+    			deathyears.add(tempYear);
+    			}
+    		}
+    	);
+    	return deathyears;
+    }
 
-		 deathCodes = new ArrayList<>();
+    public ArrayList<String> listCauseDeath(){
+    	ArrayList<String> causedeath = new ArrayList<String>();
+    	deathCodes.forEach(code -> {
+    		String tempCause = code.getCauseOfDeath();
+    		if (!causedeath.contains(tempCause)) {
+    			causedeath.add(tempCause);
+    			}
+    		}
+    	);
+    	return causedeath;
+    }
+	
+	@SuppressWarnings("resource")
+	public DeathCodeReader(String filename) throws FileNotFoundException, Exception {
 
-		File file = new File(filename);
+		deathCodes = new ArrayList<>();
+
+		File file= new File(filename);
 		// read 'NCHS' file
 
 		Scanner scanner = new Scanner(file);
@@ -46,14 +75,12 @@ public class DeathCodeReader {
 				DeathCode deathCode = new DeathCode(year, causeOfDeath, stateCode, locality, percentExcessDeath);
 
 				deathCodes.add(deathCode);
-			}catch(Exception e)
-			{
-			
+			} catch(Exception e){
+				
 			}
 		}
-
-		
 	}
+		
 
 	/**
 	 * This method generate HashMap, key=stateCode, value=average of percentage of
@@ -69,6 +96,7 @@ public class DeathCodeReader {
 		//	1. YEAR ; 2005- 2015
 		//	2. Cause of Death  ; Cancer, Stroke,Unintentional Injury,Chronic Lower Respiratory Disease,Heart Disease
 	
+		HashMap<String, Double> temp_averageDeath = new HashMap<>();
 		HashMap<String, Double> averageDeath = new HashMap<>();
 		String year = yr;
 		String causeOfDeath = cause_death;
@@ -76,64 +104,28 @@ public class DeathCodeReader {
 		Double keyNum = 0.0;
 
 		for (DeathCode index : deathCodes) {
-
 			// Get required columns: year, stateCode, casueOfDeath, locality,
 			// percentExcessDeath
-
 			String stateCode = index.getStateCode();
 			String locality = index.getLocality();
 			String percentExcessDeath = index.getPercentExcessDeath();
-
-			// Exclude empty stateCode and stateCode=0, include only locality=all, year=yr,
-			// cause_death
-			// To update existing Key, and compute the number of the same stateCode
-
-			// HashMap with stateCode: average of PED
-
 			if (!stateCode.equals("0") && !stateCode.equals("") && index.getYear().equals(year)
 					&& index.getCauseOfDeath().equals(causeOfDeath) && locality.equals("All")
 					&& !percentExcessDeath.equals("")) {
-				if (averageDeath.containsKey(stateCode)) {
+				if (temp_averageDeath.containsKey(stateCode)) {
 					keyNum = keyNum + 1;
-					sum = averageDeath.get(stateCode) + (Double.parseDouble(percentExcessDeath));
-					averageDeath.put(stateCode, sum / keyNum);
+					sum = temp_averageDeath.get(stateCode) + (Double.parseDouble(percentExcessDeath));
+					temp_averageDeath.put(stateCode, sum / keyNum);
 				} else {
 					keyNum = keyNum + 1;
-					averageDeath.put(stateCode, (Double.parseDouble(percentExcessDeath)) / keyNum);
+					temp_averageDeath.put(stateCode, (Double.parseDouble(percentExcessDeath)) / keyNum);
 				}
 			}
 		}
+		// sort by key in alphabetically
+		averageDeath = temp_averageDeath.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(
+							Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));	
 		return averageDeath;
 	}
-
-public ArrayList<String> commonTopRankedState_Death( String variable, String yr, String causeOfDeath) {
-		
-		Comparison ctr=new Comparison();
-		
-		HashMap<String, Double> one=ctr.topRankedState(ctr.getValuesForVariable(variable));
-		HashMap<String, Double> another=computeAvgDeath(yr, causeOfDeath);
-		ArrayList<String> commonState = new ArrayList<>();
-		for (String key : one.keySet()) {
-			if (another.keySet().contains(key)) {
-				commonState.add(key);
-			}
-		}
-		return commonState;
-	}
-	
-
-
-public double[] getValueArrayforVariable(HashMap<String, Double> inputMap) {
-
-	double[] values = new double[inputMap.keySet().size()];
-	int i = 0;
-	for (String key : inputMap.keySet()) {
-
-		values[i] = (double) (inputMap.get(key));
-		i++;
-	}
-
-	return values;
-}	
 	
 }

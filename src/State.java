@@ -1,4 +1,5 @@
-//This will hold all the related counties.
+// DESCRIPTION: Class will hold all the related counties.
+// Will make it easy to access descriptive statistics for a state later.
 import java.util.HashMap;
 import java.util.Map;
 
