@@ -1,89 +1,59 @@
 # Foodies
+Foodies is a user-friendly interface allowing the user to explore health outcomes based on food environments and socio-economic factors collected by the FDA on a state level.  
 
-## Project Idea:
+## Data Sources 
 
-Food environment is a major factor in public health. Characteristics of the food landscape, such as store/restaurant proximity, food prices, and food and nutrition assistance programs, are starting to be systematically captured. The USDA publishes a detailed dataset in Excel format called the Food Environmental Atlas. This project proposes exploring this data for trends between food environments, socio-economic factors and health outcomes.
+USDA Food Atlas: https://catalog.data.gov/dataset/food-environment-atlas-f4a22  
+NCHS Leading Cases of Death: https://catalog.data.gov/dataset/age-adjusted-death-rates-for-the-top-10-leading-causes-of-death-united-states-2013  
 
-## Project Goals:
+Unfortunately, neither of these data sources have functional APIs.  
+Data was downloaded and is included in this repository. (Folder: Foodies > data)
 
-Create a user-friendly model that will predict health outcomes based on food environments and socio-economic factors. The model will include an interactive map with data representing each state in the country. Variables include but are not limited to Socioeconomic characteristics, access proximity to grocery stores, food and nutrition assistance, health and physical activity, food insecurity, grocery store availability, food prices and taxes, prevalence of heart disease, diabetes and infant mortality rates.
+* DataDownload.xls
+* NCHS_Causes_of_Death.csv
 
-## Proposed Classes (Associated Methods): 
-County  
-State  
-Workbook (readWorkbook, printSheet, printSheetNames)   
-DescriptiveStatistics (mean, median, standard deviation)   
-Analysis (t-test, correlation)   
-Visualization (map, corrlation chart)  
+## Installation
 
-Please see CRCCards.docx for more details on brainstorming. 
+### Additional Components Required
 
-## Notes On Current State
+Included: 
+The Apache Commons Mathematics Library (Folder: Foodies > math)  
+Apache Commons Lang (Folder: Foodies > commons-lang3-3.9)  
+Apache POI (Folder: Foods > poi-4.0.1)  
 
-Note that the reading of the file into java was done two ways.
+If any components of either of these libraries cannot be found, start by updating the paths in your IDE.  
+An example of how to update these file paths in Eclipse can be found here:  
+https://www.tutorialspoint.com/eclipse/eclipse_java_build_path.htm
 
-Circe implemented using the Apache POI library to read in the file. This approach seeks to decrease the amount of hard coding needed to read in files and should be able to capture the entire dataset. Code currently works for test cases, but needs to be improved to fully loop. Once looping is complete, it will be integrated with Gina's solution below. 
+Installation Required:  
+JavaFX  
 
-descriptiveStatistics.java
-neighborhoodData.java
+Eclipse installation guide for JavaFX is available here:   
+https://www.eclipse.org/efxclipse/install.html  
 
-Gina implemented using the variable by variable read in method perviously demonstrated to the class. This code currently functions ok however is limited in scope and does not capture the entire dataset provided by the FDA. Related files: 
+## Running the GUI  
+Run CompareJavaFXRunner.java within the Foodies repository. 
 
-CompareRunner.java
-CompareTopRanked.java
-DeathCode.java	fixed
-DeathCodeReader.java
-DeathCodeRunner.javao
-FoodIndex.java
-FoodReader.java
-HealthIndex.java
-HealthReader.java
-Health_Statistic.java
-Sum_DeathCode.java
+### Details on the dialog box
 
-## Task Table:
+First Dropdown Box: All variables present in the USDA 
 
-| Task                                                                                                                                        | Due Date  | Blocker | Leader                    | 
-|---------------------------------------------------------------------------------------------------------------------------------------------|-----------|---------|---------------------------| 
-| Read in dataset from Excel file.                                                                                                            | 5-Apr-19  | Yes     | Circe                     | 
-| Provide descriptive statistics for each variable in data.                                                                                   | 7-Apr-19  | Yes     |                           | 
-| Output descriptive statistics in a user friendly format.                                                                                    | 10-Apr-19 | Yes     |                           | 
-| Summarized table with key variables                                                                                                         | 12-Apr-19 | No      |                           | 
-| Representative graphical comparison between key variables, then graph library will be used.                                                 | 12-Apr-19 | No      |                           | 
-| Categorize the variables into group of indicators and create Index (if this makes easier to handle the complicated dataset, if not ignore). | 14-Apr-19 | No      |                           | 
-| Create multivariate regression model to identify any factors which are strongly correlated.                                                 | 14-Apr-19 | No      |                           | 
-| Design Milestone                                                                                                                            | 14-Apr-19 | No      | Individual Submission     | 
-| Final Submission                                                                                                                            | 12-May-19 | No      | Individual Submission (?) | 
+### Example Screenshots
 
+#### Step 1: Change default values as you desire.
+![Step 1: Default values.](/images/ScreenShot1.JPG)
+#### Step 2: Hit submit and results box will populate.
+![Step 2: Example after pressing submit.](/images/ScreenShot2.JPG)
+#### OPTIONAL: You can change state to further explore details. 
+![Step 3: You can press submit after changing state.](/images/ScreenShot3.JPG)
+#### OPTIONAL: You can change values as much as you want in the same instance.
+![Step 4: You can press submit again after changing other variables.](/images/ScreenShot4.JPG)
 
-## Team Work Breakdown:
+## Additional Methods Outside of GUI
+Not all methods could be incorporated in the GUI. Other manual functions avaible include the following: 
 
-Circe - Create multivariate regression model to identify any factors which are strongly correlated. 
+#### Comparison Class
+* commonTopRankedState - Returns array of states which overlap between top ten states with highest values of one USDA variable and top ten states with highest values of one NCHS variable. See CompareManualRunner.java for manual example.
+#### DeathCodeReader Class
+* computeAvgDeath - Returns are hashmap with the average percent of excess death within a category (unqiue combination of year and cause of death). See FactorOfDeathRunner.java for manual run example.
 
-Gina -. Provide the two key factors that have the highest correlation with.  Build an algorithm “ commonality/ similarity between top 10 ranked group(county or state based) can be used such as word recommendation!   :
-
-Leonard- Look at spatial factors to see if there are neighborhoods and region effects. Utilize ERS GIS Map Service API to create interactive map for data visualization.    Utilize CDC National Center for Chronic Disease Prevention & Health mapping data. Input data into algorithms to analyze correlation between food environment and health risk factors.
-
-## Short Work Breakdown:
-
-* Read in dataset from Excel file. 
-* Provide descriptive statistics for each variable in data.
-* Output descriptive statistics in a user friendly format.
-  * option 1. Summarized table with key variables
-  * option 2. Representative graphical comparison between key variables, then graph library will be used
-* Categorize the variables into group of indicators and create Index (if this makes easier to handle the complicated dataset, if not ignore). 
-* Create multivariate regression model to identify any factors which are strongly correlated. b 
-  * option 1.  linear regression to find correlation: is this machine learning possible in advanced library? we can discuss how realistic the regression modeling is in final project.  
-  * option 2. Provide the two key factors that have the highest correlation with.  Algorithm “ commonality/ similarity between * top 10 ranked group(county or state based) can be used such as word recommendation!: (one example for ‘who will do what’ : Gina for build algorithm to compare the two variable’s correlation
- 
-* Look at spatial factors to see if there are neighborhoods and region effects.
-* Utilize ERS GIS Map Service API to create interactive map for data visualization.
-* Utilize CDC National Center for Chronic Disease Prevention & Health mapping data
-* Input data into algorithms to analyze correlation between food environment and health risk factors 
-* Variables include but not limited to Socioeconomic characteristics, access proximity to grocery stores, food and nutrition assistance, health and physical activity, food insecurity
-grocery store availability food prices and taxes, prevalence of heart disease, diabetes and infant mortality rates.  (Leonard will build map for model) 
-
-## Stretch Goals: 
-* Combine with Infant Death data to see if food environment can predict infant mortality after controlling for other demographic factors. 
-* Or dataset related to five leading causes of death (ex. Heart disease) can be compared other than diabetes (metabolic disease) organized by the States and by changes (%) of certain period.  : (another example for ‘who will do what’ : Gina for implementing and analyzing Data by States, to see if there’s any correlation between mortality changes and food environment.)
-* Allow users to make selections to explore data themselves (such as searching by certain number of state and show comparison). 
