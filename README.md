@@ -56,4 +56,3 @@ Not all methods could be incorporated in the GUI. Other manual functions avaible
 * commonTopRankedState - Returns array of states which overlap between top ten states with highest values of one USDA variable and top ten states with highest values of one NCHS variable. See CompareManualRunner.java for manual example.
 #### DeathCodeReader Class
 * computeAvgDeath - Returns are hashmap with the average percent of excess death within a category (unqiue combination of year and cause of death). See FactorOfDeathRunner.java for manual run example.
-

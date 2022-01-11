@@ -1,0 +1,30 @@
+Name: Foodies
+
+Members: Circe McDonald, Gina Jung, Leonard Fields
+
+Project Description:
+Food environment is a major factor in public health. Characteristics of the food landscape, such as store/restaurant proximity, food prices, and food and nutrition assistance programs, are starting to be systematically captured. The USDA publishes a detailed dataset in Excel format called the Food Environmental Atlas. This project creates a simple interface for the relationships between food environments, socio-economic factors, demographic factors, and health outcomes at a state level. 
+
+Work Breakdown by Member:
+
+Circe took the lead on project design and importing the USDA data set. Circe handled incorporating the POI, JavaFX, and math3 packages. Circe handled creating the other non-workbook related classes. Circe created the JavaFX GUI. Circe did unit testing for the CountyWorkbook and DeathCodeReader classes. Circe handled documentation and maintenance of the GitHub Repo.
+
+Gina Jung took the lead on importing the health dataset. Gina also imported a significant portion of the USDA dataset though that code was ultimately replaced. Gina developed all the correlation and ranking methods. Gina did unit testing for the Comparison class. Gina created the manual runner classes (FactorOfDeath and CompareRunner).
+
+Unfortunately, no code contributions were received from Leonard Fields as of writing.
+
+Work Breakdown by File (File - Main Developer):
+CompareJavaFXRunner.java - Circe McDonald
+CompareManualRunner.java - Gina Jung
+Comparison.java - Gina Jung
+County.java - Circe McDonald
+CountyWorkbook.java - Circe McDonald
+CountyWorkbookTest.java - Circe McDonald
+DeathCode.java - Gina Jung
+DeathCodeReader.java - Gina Jung
+DeathCodeReaderTest.java - Circe McDonald
+FactorOfDeathRunner.java - Gina Jung
+State.java - Circe McDonald
+
+
+
